@@ -1,0 +1,91 @@
+#container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../img/bird.jpg");
+  background-size: cover; }
+  #container #scoreBox {
+    font-size: 22pt;
+    margin-bottom: 15px;
+    height: 100px;
+    width: 15vw;
+    min-width: 150px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    padding: 0 25px; }
+    #container #scoreBox img {
+      height: 70px;
+      width: 70px; }
+    #container #scoreBox .highlight {
+      font-size: 70px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: green; }
+    #container #scoreBox #score {
+      margin-left: 15px; }
+  #container #card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    width: 50vw;
+    border: 2px solid black;
+    font-size: 36pt;
+    background-color: rgba(255, 255, 255, 0.9); }
+    #container #card #word {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; }
+    #container #card #arrowBox img {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      width: 50px;
+      cursor: pointer; }
+  #container #loginBox {
+    position: absolute;
+    width: 50vw;
+    background-color: lightskyblue;
+    top: 10px;
+    left: 25vw;
+    border: 3px solid black; }
+    #container #loginBox .formBox {
+      background-color: #fff;
+      width: 80%;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid black;
+      padding: 15px; }
+      #container #loginBox .formBox .errorBox {
+        color: red; }
+      #container #loginBox .formBox h2 {
+        margin-top: 0;
+        margin-bottom: 5px;
+        align-self: center; }
+      #container #loginBox .formBox label {
+        font-size: 18px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column; }
+        #container #loginBox .formBox label input {
+          width: 100%; }
+      #container #loginBox .formBox .saveInfo {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end; }
+        #container #loginBox .formBox .saveInfo input {
+          width: 20px; }
+      #container #loginBox .formBox button {
+        width: 150px;
+        font-size: 18px;
+        float: right;
+        align-self: flex-end; }
