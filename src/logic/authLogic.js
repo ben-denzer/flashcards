@@ -7,7 +7,7 @@ const loginWithPassword = (credentials) => {
         apiPromise(options, 'auth/login').then(
             (data) => {
                 if (saveData) localStorage.setItem('token', data.token);
-                resolve({coins: 0, user: username});
+                resolve({coins: data.coins, user: username});
             }, (err) => {
                 if (err === 'unauthorized') {
                     reject({error: 'Invalid username or password'});

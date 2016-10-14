@@ -43,7 +43,6 @@ class Login extends Component {
         });
     }
     render() {
-        console.log(this.state);
         const {loginName, loginPw, loginSave, signupName, signupPw, signupPw2, signupSave} = this.state;
         return (
             <div id="loginBox">
