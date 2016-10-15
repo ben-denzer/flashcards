@@ -6,7 +6,10 @@ const ScoreBox = (props) => {
     return (
         <div id="scoreBox">
             <div id="nameBox">{name}</div>
-            <img src={quarter} alt="" /> <span className="highlight" id="score">{score}</span>
+            <div id="scoreContainer">
+                <img src={quarter} alt="" />
+                <span className="highlight" id="score">{score}</span>
+            </div>
         </div>
     );
 };

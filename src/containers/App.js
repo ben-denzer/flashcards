@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../img/logo.svg';
-import '../css/App.css';
+import '../css/App.scss';
 import Flashcards from './Flashcards';
 import Login from './Login';
 import * as authActions from '../logic/authLogic';
@@ -71,7 +71,7 @@ class App extends Component {
     }
     render() {
         console.log(this.state, 'state');
-        console.log(Boolean(this.state.user), 'asdlfkj');
+        console.log(this.state.user, 'asdlfkj');
         return (
             <div className="App">
                 <div className="App-header">
@@ -81,7 +81,7 @@ class App extends Component {
                 {this.state.user ?
                     <Flashcards
                         word={this.state.words[this.state.wordIndex] || 'There is an error, please refresh the page'}
-                        username={this.state.username}
+                        name={this.state.user}
                         coins={this.state.coins}
                         correctAnswer={this.correctAnswer}
                     /> :

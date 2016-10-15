@@ -6,7 +6,7 @@ import {recognition} from '../logic/speachConfig';
 class Flashcards extends Component {
     constructor(props) {
         super(props);
-        this.state = {foo: 'bar'};
+        this.state = {sound: 'PLAYING'};
     }
     componentWillUnmount() {
         recognition.stop();
@@ -14,8 +14,9 @@ class Flashcards extends Component {
     render() {
         return (
             <div id="container">
-                <ScoreBox name={this.props.username} score={this.props.coins} />
+                <ScoreBox name={this.props.name} score={this.props.coins} />
                 <Card word={this.props.word} />
+                <audio ref={(ref) => this.myDing = ref} id="myDing" src="../../ding.mp3" />
             </div>
         );
     }
