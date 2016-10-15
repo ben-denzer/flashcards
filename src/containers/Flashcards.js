@@ -6,10 +6,18 @@ import {recognition} from '../logic/speachConfig';
 class Flashcards extends Component {
     constructor(props) {
         super(props);
-        this.state = {sound: 'PLAYING'};
+        this.showCoin = this.showCoin.bind(this);
+    }
+    componentDidUpdate() {
+        if (this.props.score % 3 === 0 && this.props.score) {
+            this.showCoin();
+        }
     }
     componentWillUnmount() {
         recognition.stop();
+    }
+    showCoin() {
+        console.log('showcoin called');
     }
     render() {
         return (

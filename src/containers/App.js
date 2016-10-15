@@ -54,24 +54,24 @@ class App extends Component {
                 if (event.results[0][i]) {
                     let wordsFromBrowser = event.results[0][i].transcript.toLowerCase().split(' ');
                     let correctWords = phrase.toLowerCase().split(' ');
-                    console.log(wordsFromBrowser, correctWords);
                     if (correctWords.every(a => wordsFromBrowser.indexOf(a) !== -1)) {
-                        this.setState({wordIndex: ++this.state.wordIndex, score: ++this.state.score});
-                        this.correctAnswer();
                         passedTest = true;
                     }
                 }
             }
+            if (passedTest) this.correctAnswer();
         };
         recognition.onend = () => !passedTest ? recognition.start() : null;
     };
     correctAnswer() {
-        console.log('hit correctAnswer');
+        document.getElementById('ding').play();
+        this.setState({
+            wordIndex: ++this.state.wordIndex,
+            score: ++this.state.score
+        });
         this.listen(this.state.words[this.state.wordIndex]);
     }
     render() {
-        console.log(this.state, 'state');
-        console.log(this.state.user, 'asdlfkj');
         return (
             <div className="App">
                 <div className="App-header">
@@ -84,6 +84,7 @@ class App extends Component {
                         name={this.state.user}
                         coins={this.state.coins}
                         correctAnswer={this.correctAnswer}
+                        score={this.state.score}
                     /> :
                     <Login signup={this.signup} login={this.login} error={this.state.authError} />
                 }
