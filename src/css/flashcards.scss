@@ -9,6 +9,11 @@
     background-image: url("../img/bird.jpg");
     background-size: cover;
 
+    .highlight {
+        font-size: 70px;
+        font-family: Arial, Helvetica, sans-serif;
+        color: green;
+    }
     #scoreBox {
         font-size: 22pt;
         margin-bottom: 15px;
@@ -32,11 +37,6 @@
             height: 70px;
             width: 70px;
         }
-        .highlight {
-            font-size: 70px;
-            font-family: Arial, Helvetica, sans-serif;
-            color: green;
-        }
         #score {
             margin-left: 15px;
         }
@@ -58,6 +58,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+
+            #spinner {
+                height: 100px;
+                width: 100px;
+            }
         }
         #arrowBox {
             img {
