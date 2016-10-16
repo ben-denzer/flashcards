@@ -7,24 +7,13 @@ import {Spinner} from '../components/Spinner';
 class Flashcards extends Component {
     constructor(props) {
         super(props);
-        this.state = {showCoin: false, update: true, coinHasBeenShown: false};
+        this.state = {showCoin: false};
         this.showCoin = this.showCoin.bind(this);
         this.skipWord = this.skipWord.bind(this);
     }
-    componentWillReceiveProps() {
-        console.log('willRecieve', 'props', this.props, 'state', this.state);
-        if (this.state.coinHasBeenShown) this.setState({coinHasBeenShown: false});
-    }
-    shouldComponentUpdate() {
-        console.log('shouldUpdate', 'props', this.props, 'state', this.state);
-
-        return this.state.update ? true : false;
-    }
     componentDidUpdate() {
-        console.log('componentDid', 'props', this.props, 'state', this.state)
-        if (this.props.score % 3 === 0 && this.props.score && !this.state.coinHasBeenShown) {
+        if (this.props.score % 3 === 0 && this.props.score) {
             this.showCoin();
-            this.setState({update: false});
         }
     }
     componentWillUnmount() {
@@ -33,7 +22,7 @@ class Flashcards extends Component {
     showCoin() {
         this.setState({showCoin: true});
         this.props.addCoin();
-        setTimeout(() => this.setState({showCoin: false, update: true, coinHasBeenShown: true}), 4000);
+        setTimeout(() => this.setState({showCoin: false}), 4000);
     }
     skipWord() {
         this.props.skipWord();

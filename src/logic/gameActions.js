@@ -1,4 +1,4 @@
-import apiPromise from './apiPromise';
+import {apiPromise} from './apiPromise';
 
 const addCoinToDB = (options) => {
     apiPromise({token: options.token, coins: options.newCoinVal}, 'actions/addCoin');
