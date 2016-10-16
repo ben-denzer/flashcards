@@ -1,5 +1,5 @@
 const apiUrl = 'https://bdenzer.xyz/flashcards/';
-//let apiUrl = 'http://localhost:8000/flashcards/';
+//const apiUrl = 'http://localhost:8000/flashcards/';
 
 const apiPromise = (options, url) => {
     return new Promise((resolve, reject) => {

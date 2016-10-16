@@ -4,23 +4,34 @@ import '../css/App.scss';
 import Flashcards from './Flashcards';
 import Login from './Login';
 import * as authActions from '../logic/authLogic';
+import * as gameActions from '../logic/gameActions';
 import {shuffledWords, recognition} from '../logic/speachConfig';
 
 class App extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
+            user: null,
             coins: 0,
             words: shuffledWords,
             wordIndex: 0,
             authError: '',
-            score: 0
+            score: 0,
+            token: null
         };
-        this.signup = this.signup.bind(this);
-        this.login = this.login.bind(this);
-        this.authSuccess = this.authSuccess.bind(this);
-        this.correctAnswer = this.correctAnswer.bind(this);
-        this.listen = this.listen.bind(this);
+
+        const localFunctions = [
+            'signup',
+            'login',
+            'authSuccess',
+            'correctAnswer',
+            'listen',
+            'addCoin',
+            'skipWord'
+        ];
+
+        localFunctions.forEach(a => this[a] = this[a].bind(this));
     }
     componentDidMount() {
         authActions.checkForToken().then(
@@ -41,6 +52,8 @@ class App extends Component {
         );
     }
     authSuccess(data) {
+        if (data.token) this.setState({token: data.token});
+
         if (data.user) {
             recognition.start();
             this.listen(this.state.words[0]);
@@ -71,7 +84,21 @@ class App extends Component {
         });
         this.listen(this.state.words[this.state.wordIndex]);
     }
+    addCoin() {
+        const {coins, token} = this.state;
+        const newCoinVal = coins + 1;
+        this.setState({coins: newCoinVal, score: 0});
+        gameActions.addCoinToDB({token, newCoinVal});
+    }
+    skipWord() {
+        const {token, user, words, wordIndex} = this.state;
+        const currentWord = words[wordIndex];
+        gameActions.logSkippedWord({token, user, currentWord});
+        this.setState({wordIndex: wordIndex + 1});
+    }
     render() {
+        console.log(this.state.token, 'token');
+        const {words, wordIndex, user, coins, score} = this.state;
         return (
             <div className="App">
                 <div className="App-header">
@@ -80,11 +107,13 @@ class App extends Component {
                 </div>
                 {this.state.user ?
                     <Flashcards
-                        word={this.state.words[this.state.wordIndex] || 'There is an error, please refresh the page'}
-                        name={this.state.user}
-                        coins={this.state.coins}
+                        word={words[wordIndex] || 'There is an error, please refresh the page'}
+                        name={user}
+                        coins={coins}
                         correctAnswer={this.correctAnswer}
-                        score={this.state.score}
+                        score={score}
+                        addCoin={this.addCoin}
+                        skipWord={this.skipWord}
                     /> :
                     <Login signup={this.signup} login={this.login} error={this.state.authError} />
                 }

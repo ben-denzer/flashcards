@@ -7,7 +7,7 @@ const loginWithPassword = (credentials) => {
         apiPromise(options, 'auth/login').then(
             (data) => {
                 if (saveData) localStorage.setItem('token', data.token);
-                resolve({coins: data.coins, user: username});
+                resolve({coins: data.coins, user: username, token: data.token});
             }, (err) => {
                 if (err === 'unauthorized') {
                     reject({error: 'Invalid username or password'});
@@ -28,7 +28,7 @@ const signup = (credentials) => {
         apiPromise(options, 'auth/signup').then(
             (data) => {
                 if (saveData) localStorage.setItem('token', data.token);
-                resolve({coins: 0, user: username});
+                resolve({coins: 0, user: username, token: data.token});
             }, (err) => {
                 if (err === 'unauthorized') {
                     reject({error: 'Username Is Already In Use'});
@@ -40,19 +40,18 @@ const signup = (credentials) => {
     });
 };
 
-
 const checkForToken = () => {
     return new Promise((resolve, reject) => {
         const token = localStorage.getItem('token');
         if (token) {
             apiPromise({token}, 'auth/loginWithToken').then(
-                (data) => resolve({coins: data.coins, user: data.username}),
+                (data) => resolve({coins: data.coins, user: data.username, token: data.token}),
                 (err) => reject(err)
             )
         } else {
             resolve({coins: 0, user: null});
         }
     });
-}
+};
 
 export {checkForToken, signup, loginWithPassword};
