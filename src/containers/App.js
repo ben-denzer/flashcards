@@ -28,14 +28,18 @@ class App extends Component {
             'correctAnswer',
             'listen',
             'addCoin',
-            'skipWord'
+            'skipWord',
+            'logout'
         ];
 
         localFunctions.forEach(a => this[a] = this[a].bind(this));
     }
     componentDidMount() {
         authActions.checkForToken().then(
-            (data) => this.authSuccess(data),
+            (data) => {
+                console.log('didmount data', data);
+                this.authSuccess(data);
+            },
             () => console.log('check token error')
         );
     }
@@ -97,6 +101,10 @@ class App extends Component {
         this.listen(words[wordIndex + 1]);
         this.setState({wordIndex: wordIndex + 1});
     }
+    logout() {
+        this.setState({user: null, coins: null, token: null});
+        window.localStorage.clear();
+    }
     render() {
         console.log(this.state.token, 'token');
         const {words, wordIndex, user, coins, score} = this.state;
@@ -105,6 +113,7 @@ class App extends Component {
                 <div className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
                     <h2>Welcome to React</h2>
+                    <p onClick={this.logout}>Logout</p>
                 </div>
                 {this.state.user ?
                     <Flashcards

@@ -3,7 +3,6 @@ import {apiPromise} from './apiPromise';
 const loginWithPassword = (credentials) => {
     return new Promise((resolve, reject) => {
         const {username, password, saveData} = credentials;
-        console.log(saveData, 'saveData');
         const options = {username, password};
         apiPromise(options, 'auth/login').then(
             (data) => {
@@ -45,8 +44,11 @@ const checkForToken = () => {
     return new Promise((resolve, reject) => {
         const token = window.localStorage.getItem('token');
         if (token) {
-            apiPromise({token}, 'auth/loginWithToken').then(
-                (data) => resolve({coins: data.coins, user: data.username, token: data.token}),
+            return apiPromise({token}, 'auth/loginWithToken').then(
+                (data) => {
+                    console.log('apiPromise data', data);
+                    resolve({coins: data.coins, user: data.username, token: data.token})
+                },
                 (err) => reject(err)
             )
         } else {
