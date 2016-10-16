@@ -3,10 +3,11 @@ import {apiPromise} from './apiPromise';
 const loginWithPassword = (credentials) => {
     return new Promise((resolve, reject) => {
         const {username, password, saveData} = credentials;
+        console.log(saveData, 'saveData');
         const options = {username, password};
         apiPromise(options, 'auth/login').then(
             (data) => {
-                if (saveData) localStorage.setItem('token', data.token);
+                if (saveData) window.localStorage.setItem('token', data.token);
                 resolve({coins: data.coins, user: username, token: data.token});
             }, (err) => {
                 if (err === 'unauthorized') {
@@ -27,7 +28,7 @@ const signup = (credentials) => {
         const options = {username, password};
         apiPromise(options, 'auth/signup').then(
             (data) => {
-                if (saveData) localStorage.setItem('token', data.token);
+                if (saveData) window.localStorage.setItem('token', data.token);
                 resolve({coins: 0, user: username, token: data.token});
             }, (err) => {
                 if (err === 'unauthorized') {
@@ -42,7 +43,7 @@ const signup = (credentials) => {
 
 const checkForToken = () => {
     return new Promise((resolve, reject) => {
-        const token = localStorage.getItem('token');
+        const token = window.localStorage.getItem('token');
         if (token) {
             apiPromise({token}, 'auth/loginWithToken').then(
                 (data) => resolve({coins: data.coins, user: data.username, token: data.token}),

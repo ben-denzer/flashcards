@@ -94,6 +94,7 @@ class App extends Component {
         const {token, user, words, wordIndex} = this.state;
         const currentWord = words[wordIndex];
         gameActions.logSkippedWord({token, user, currentWord});
+        this.listen(words[wordIndex + 1]);
         this.setState({wordIndex: wordIndex + 1});
     }
     render() {
@@ -114,6 +115,7 @@ class App extends Component {
                         score={score}
                         addCoin={this.addCoin}
                         skipWord={this.skipWord}
+                        listen={this.listen}
                     /> :
                     <Login signup={this.signup} login={this.login} error={this.state.authError} />
                 }

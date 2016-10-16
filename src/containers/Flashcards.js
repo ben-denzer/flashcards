@@ -22,7 +22,11 @@ class Flashcards extends Component {
     showCoin() {
         this.setState({showCoin: true});
         this.props.addCoin();
-        setTimeout(() => this.setState({showCoin: false}), 4000);
+        recognition.stop();
+        setTimeout(() => {
+            this.setState({showCoin: false});
+            this.props.listen(this.props.word);
+        }, 4000);
     }
     skipWord() {
         this.props.skipWord();

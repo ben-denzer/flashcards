@@ -75,7 +75,7 @@ class Login extends Component {
                         Keep Me Signed In
                         <input
                             type="checkbox"
-                            id="saveInfoLogin"
+                            id="loginSave"
                             onChange={this.handleCheck}
                             value={loginSave}
                         />
