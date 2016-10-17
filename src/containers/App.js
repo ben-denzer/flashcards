@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import logo from '../img/logo.svg';
 import '../css/App.scss';
 import Flashcards from './Flashcards';
 import Login from './Login';
+import Header from '../components/Header';
 import * as authActions from '../logic/authLogic';
 import * as gameActions from '../logic/gameActions';
 import {shuffledWords, recognition} from '../logic/speachConfig';
@@ -37,7 +37,6 @@ class App extends Component {
     componentDidMount() {
         authActions.checkForToken().then(
             (data) => {
-                console.log('didmount data', data);
                 this.authSuccess(data);
             },
             () => console.log('check token error')
@@ -78,7 +77,7 @@ class App extends Component {
             }
             if (passedTest) this.correctAnswer();
         };
-        recognition.onend = () => !passedTest ? recognition.start() : null;
+        recognition.onend = () => !passedTest && this.state.user ? recognition.start() : null;
     };
     correctAnswer() {
         document.getElementById('ding').play();
@@ -103,18 +102,14 @@ class App extends Component {
     }
     logout() {
         this.setState({user: null, coins: null, token: null});
+        recognition.stop();
         window.localStorage.clear();
     }
     render() {
-        console.log(this.state.token, 'token');
         const {words, wordIndex, user, coins, score} = this.state;
         return (
-            <div className="App">
-                <div className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h2>Welcome to React</h2>
-                    <p onClick={this.logout}>Logout</p>
-                </div>
+            <div id="container" className="App">
+                <Header logout={this.logout} user={user} />
                 {this.state.user ?
                     <Flashcards
                         word={words[wordIndex] || 'There is an error, please refresh the page'}

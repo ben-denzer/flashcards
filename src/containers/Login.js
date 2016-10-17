@@ -55,7 +55,7 @@ class Login extends Component {
                         {this.props.error.error}
                     </div>
                     <label>
-                        Username
+                        <span>Username</span>
                         <input
                             id="loginName"
                             onChange={this.handleChange}
@@ -63,7 +63,7 @@ class Login extends Component {
                         />
                     </label>
                     <label>
-                        Password
+                        <span>Password</span>
                         <input
                             type="password"
                             id="loginPw"
@@ -92,7 +92,7 @@ class Login extends Component {
                     <h2> Sign Up</h2>
                     <div className="errorBox" id="signupError"></div>
                     <label>
-                        Username
+                        <span>Username</span>
                         <input
                             id="signupName"
                             value={signupName}
@@ -100,7 +100,7 @@ class Login extends Component {
                         />
                     </label>
                     <label>
-                        Password
+                        <span>Password</span>
                         <input
                             id="signupPw"
                             type="password"
@@ -109,7 +109,7 @@ class Login extends Component {
                         />
                     </label>
                     <label>
-                        Re-Type Password
+                        <span>Re-Type Password</span>
                         <input
                             id="signupPw2"
                             type="password"

@@ -9,7 +9,6 @@ const apiPromise = (options, url) => {
 
         req.onload = () => {
             if (req.status >= 200 && req.status < 400) {
-                console.log(req.responseText);
                 resolve(JSON.parse(req.responseText));
             } else if (req.status === 401 || req.status === 403) {
                 reject('unauthorized');

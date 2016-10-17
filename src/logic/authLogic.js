@@ -46,7 +46,6 @@ const checkForToken = () => {
         if (token) {
             return apiPromise({token}, 'auth/loginWithToken').then(
                 (data) => {
-                    console.log('apiPromise data', data);
                     resolve({coins: data.coins, user: data.username, token: data.token})
                 },
                 (err) => reject(err)

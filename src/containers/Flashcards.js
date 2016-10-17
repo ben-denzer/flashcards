@@ -12,7 +12,7 @@ class Flashcards extends Component {
         this.skipWord = this.skipWord.bind(this);
     }
     componentDidUpdate() {
-        if (this.props.score % 3 === 0 && this.props.score) {
+        if (this.props.score % 10 === 0 && this.props.score) {
             this.showCoin();
         }
     }
@@ -32,9 +32,8 @@ class Flashcards extends Component {
         this.props.skipWord();
     }
     render() {
-        console.log('render', 'props', this.props, 'state', this.state);
         return (
-            <div id="container">
+            <div id="gameContainer">
                 <ScoreBox name={this.props.name} score={this.props.coins} />
                 <Card skipWord={this.skipWord} word={this.state.showCoin ? <Spinner /> : this.props.word} />
             </div>

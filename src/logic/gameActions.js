@@ -5,7 +5,6 @@ const addCoinToDB = (options) => {
 };
 
 const logSkippedWord = (options) => {
-    console.log(options);
     apiPromise(
         {
             token: options.token,
