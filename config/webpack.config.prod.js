@@ -129,7 +129,8 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!postcss')
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
-      test: /\.scss$/,
+      {
+        test: /\.scss$/,
         include: paths.appSrc,
         loaders: ["style", "css", "sass"]
       },
