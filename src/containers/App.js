@@ -106,6 +106,7 @@ class App extends Component {
         window.localStorage.clear();
     }
     render() {
+        const pwReset = /\/reset\//.test(window.location.pathname);
         const {words, wordIndex, user, coins, score} = this.state;
         return (
             <div id="container" className="App">
@@ -121,7 +122,7 @@ class App extends Component {
                         skipWord={this.skipWord}
                         listen={this.listen}
                     /> :
-                    <Login signup={this.signup} login={this.login} error={this.state.authError} />
+                    <Login signup={this.signup} login={this.login} error={this.state.authError} pwReset={pwReset || false} />
                 }
             </div>
         );
