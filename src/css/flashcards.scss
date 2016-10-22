@@ -142,6 +142,13 @@
                 float: right;
                 align-self: flex-end;
             }
+            #forgot_pw {
+                color: blue;
+                text-decoration: underline;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
         }
     }
 }

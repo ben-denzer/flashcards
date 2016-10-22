@@ -1,5 +1,5 @@
-const apiUrl = 'https://bdenzer.xyz/flashcards/';
-//const apiUrl = 'http://localhost:8000/flashcards/';
+//const apiUrl = 'https://bdenzer.xyz/flashcards/';
+const apiUrl = 'http://localhost:8000/flashcards/';
 
 const apiPromise = (options, url) => {
     return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ const apiPromise = (options, url) => {
         req.onerror = () => {
             reject('onError called');
         }
-
+        console.log('options', options);
         req.send(JSON.stringify(options));
     });
 };

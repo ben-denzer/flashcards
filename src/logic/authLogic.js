@@ -21,10 +21,12 @@ const loginWithPassword = (credentials) => {
 
 const signup = (credentials) => {
     return new Promise((resolve, reject) => {
-        const {username, password, p2, saveData} = credentials;
-        if (password !== p2) reject({error: 'Passwords Do Not Match'});
+        const {username, password, p2, email, saveData} = credentials;
+        if (username.length < 2) return reject({error: 'Username Must Be at Least 2 Characters Long'});
+        if (password.length < 4) return reject({error: 'Password Must Be at Least 4 Characters Long'});
+        if (password !== p2) return reject({error: 'Passwords Do Not Match'});
 
-        const options = {username, password};
+        const options = {username, password, email};
         apiPromise(options, 'auth/signup').then(
             (data) => {
                 if (saveData) window.localStorage.setItem('token', data.token);
@@ -56,4 +58,13 @@ const checkForToken = () => {
     });
 };
 
-export {checkForToken, signup, loginWithPassword};
+const sendResetEmail = (options) => {
+    return new Promise((resolve, reject) => {
+        apiPromise(options, 'auth/resetPassword').then(
+            () => resolve(),
+            () => reject({error: 'Network Error, Please Try Again'})
+        );
+    });
+}
+
+export {checkForToken, signup, loginWithPassword, sendResetEmail};

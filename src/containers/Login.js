@@ -7,23 +7,23 @@ class Login extends Component {
             loginName: '',
             loginPw: '',
             loginSave: false,
+            forgotPwEmail: '',
             signupName: '',
             signupPw: '',
             signupPw2: '',
+            signupEmail: '',
             signupSave: false,
             resetPw: '',
-            resetPw2: ''
+            resetPw2: '',
+            forgotPassword: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
         this.signupClicked = this.signupClicked.bind(this);
         this.loginClicked = this.loginClicked.bind(this);
         this.resetPwClicked = this.resetPwClicked.bind(this);
-    }
-    componentDidMount() {
-        if (this.props.pwReset) {
-
-        }
+        this.forgotPassword = this.forgotPassword.bind(this);
+        this.sendResetEmail = this.sendResetEmail.bind(this);
     }
     handleChange(e) {
         this.setState({[e.target.id]: e.target.value});
@@ -33,11 +33,12 @@ class Login extends Component {
     }
     signupClicked(e) {
         e.preventDefault();
-        const {signupName, signupPw, signupPw2, signupSave} = this.state;
+        const {signupName, signupPw, signupPw2, signupEmail, signupSave} = this.state;
         this.props.signup({
             username: signupName,
             password: signupPw,
             p2: signupPw2,
+            email: signupEmail,
             saveData: signupSave
         });
     }
@@ -54,14 +55,33 @@ class Login extends Component {
         e.preventDefault();
         const {resetPw, resetPw2} = this.state;
         if (resetPw === resetPw2) {
-            return;
             //this.props.resetPassword({})
         } else {
             return;
         }
     }
+    forgotPassword() {
+        this.setState({forgotPassword: true});
+    }
+    sendResetEmail(e) {
+        e.preventDefault();
+        this.props.sendResetEmail({email: this.state.forgotPwEmail});
+    }
     render() {
-        const {loginName, loginPw, loginSave, signupName, signupPw, signupPw2, signupSave, resetPw, resetPw2} = this.state;
+        const {
+            loginName,
+            loginPw,
+            loginSave,
+            signupName,
+            signupPw,
+            signupPw2,
+            signupEmail,
+            signupSave,
+            resetPw,
+            resetPw2,
+            forgotPassword
+        } = this.state;
+
         return (
             <div id="loginBox">
                 { this.props.pwReset ?
@@ -114,10 +134,22 @@ class Login extends Component {
                             >
                                 Log In
                             </button>
+                            <a id="forgot_pw" onClick={this.forgotPassword}>Forgot Username or Password</a>
+                            {forgotPassword &&
+                                <div>
+                                    <label>
+                                        Email
+                                        <input type="email" id="forgotPwEmail" onChange={this.handleChange} />
+                                    </label>
+                                    <button onClick={this.sendResetEmail}>Reset Password</button>
+                                </div>
+                            }
                         </form>
                         <form className="formBox" id="signupForm">
                             <h2> Sign Up</h2>
-                            <div className="errorBox" id="signupError"></div>
+                            <div className="errorBox" id="signupError">
+                                {this.props.error.error}
+                            </div>
                             <label>
                                 <span>Username</span>
                                 <input
@@ -141,6 +173,15 @@ class Login extends Component {
                                     id="signupPw2"
                                     type="password"
                                     value={signupPw2}
+                                    onChange={this.handleChange}
+                                />
+                            </label>
+                            <label>
+                                <span>Email (optional) ONLY used to re-set your password</span>
+                                <input
+                                    id="signupEmail"
+                                    type="email"
+                                    value={signupEmail}
                                     onChange={this.handleChange}
                                 />
                             </label>

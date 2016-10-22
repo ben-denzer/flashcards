@@ -29,7 +29,8 @@ class App extends Component {
             'listen',
             'addCoin',
             'skipWord',
-            'logout'
+            'logout',
+            'sendResetEmail'
         ];
 
         localFunctions.forEach(a => this[a] = this[a].bind(this));
@@ -51,6 +52,14 @@ class App extends Component {
     login(credentials) {
         authActions.loginWithPassword(credentials).then(
             (data) => this.authSuccess(data),
+            (err) => this.setState({authError: err})
+        );
+    }
+    sendResetEmail(credentials) {
+        authActions.sendResetEmail(credentials).then(
+            (data) => {
+                this.setState({authError: 'Password reset link has been sent, you may need to look in your spam folder.'})
+            },
             (err) => this.setState({authError: err})
         );
     }
@@ -107,7 +116,7 @@ class App extends Component {
     }
     render() {
         const pwReset = /\/reset\//.test(window.location.pathname);
-        const {words, wordIndex, user, coins, score} = this.state;
+        const {words, wordIndex, user, coins, score, authError} = this.state;
         return (
             <div id="container" className="App">
                 <Header logout={this.logout} user={user} />
@@ -121,8 +130,15 @@ class App extends Component {
                         addCoin={this.addCoin}
                         skipWord={this.skipWord}
                         listen={this.listen}
+                        authError={authError}
                     /> :
-                    <Login signup={this.signup} login={this.login} error={this.state.authError} pwReset={pwReset || false} />
+                    <Login
+                        signup={this.signup}
+                        login={this.login}
+                        error={this.state.authError}
+                        pwReset={pwReset || false}
+                        sendResetEmail={this.sendResetEmail}
+                    />
                 }
             </div>
         );
