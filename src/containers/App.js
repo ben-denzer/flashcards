@@ -30,7 +30,9 @@ class App extends Component {
             'addCoin',
             'skipWord',
             'logout',
-            'sendResetEmail'
+            'sendResetEmail',
+            'resetPw',
+            'showError'
         ];
 
         localFunctions.forEach(a => this[a] = this[a].bind(this));
@@ -61,6 +63,12 @@ class App extends Component {
                 this.setState({authError: 'Password reset link has been sent, you may need to look in your spam folder.'})
             },
             (err) => this.setState({authError: err})
+        );
+    }
+    resetPw(credentials, tokenUrl) {
+        authActions.resetPw(credentials, tokenUrl).then(
+            (data) => this.authSuccess(data),
+            (err) => this.authError(err)
         );
     }
     authSuccess(data) {
@@ -114,6 +122,9 @@ class App extends Component {
         recognition.stop();
         window.localStorage.clear();
     }
+    showError(str) {
+        this.setState({authError: str});
+    }
     render() {
         const pwReset = /\/reset\//.test(window.location.pathname);
         const {words, wordIndex, user, coins, score, authError} = this.state;
@@ -138,6 +149,7 @@ class App extends Component {
                         error={this.state.authError}
                         pwReset={pwReset || false}
                         sendResetEmail={this.sendResetEmail}
+                        resetPw={this.resetPw}
                     />
                 }
             </div>

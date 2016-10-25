@@ -65,6 +65,16 @@ const sendResetEmail = (options) => {
             () => reject({error: 'Network Error, Please Try Again'})
         );
     });
-}
+};
 
-export {checkForToken, signup, loginWithPassword, sendResetEmail};
+const resetPw = (options, tokenUrl) => {
+    console.log('promise', tokenUrl);
+    return new Promise((resolve, reject) => {
+        apiPromise(options, `auth/reset/${tokenUrl}`).then(
+            (data) => resolve({coins: data.coins, user: data.username, token: data.token}),
+            (err) => reject(err)
+        );
+    });
+};
+
+export {checkForToken, signup, loginWithPassword, sendResetEmail, resetPw};

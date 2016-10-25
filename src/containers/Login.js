@@ -13,17 +13,19 @@ class Login extends Component {
             signupPw2: '',
             signupEmail: '',
             signupSave: false,
+            resetPwUsername: '',
             resetPw: '',
             resetPw2: '',
-            forgotPassword: false
+            forgotPassword: false,
+            location: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
         this.signupClicked = this.signupClicked.bind(this);
         this.loginClicked = this.loginClicked.bind(this);
-        this.resetPwClicked = this.resetPwClicked.bind(this);
         this.forgotPassword = this.forgotPassword.bind(this);
         this.sendResetEmail = this.sendResetEmail.bind(this);
+        this.resetPw = this.resetPw.bind(this);
     }
     handleChange(e) {
         this.setState({[e.target.id]: e.target.value});
@@ -51,21 +53,26 @@ class Login extends Component {
             saveData: loginSave
         });
     }
-    resetPwClicked(e) {
-        e.preventDefault();
-        const {resetPw, resetPw2} = this.state;
-        if (resetPw === resetPw2) {
-            //this.props.resetPassword({})
-        } else {
-            return;
-        }
-    }
     forgotPassword() {
         this.setState({forgotPassword: true});
     }
     sendResetEmail(e) {
         e.preventDefault();
         this.props.sendResetEmail({email: this.state.forgotPwEmail});
+    }
+    resetPw(e) {
+        e.preventDefault();
+        const path = window.location.pathname;
+        console.log('to', path.slice(path.lastIndexOf('/') + 1));
+        const {resetPwUsername, resetPw, resetPw2} = this.state;
+        if (resetPw !== resetPw2) return this.props.showError({error: 'Passwords Do Not Match'});
+        this.props.resetPw(
+            {
+                username: resetPwUsername,
+                password: resetPw
+            },
+            path.slice(path.lastIndexOf('/') + 1)
+        );
     }
     render() {
         const {
@@ -77,6 +84,7 @@ class Login extends Component {
             signupPw2,
             signupEmail,
             signupSave,
+            resetPwUsername,
             resetPw,
             resetPw2,
             forgotPassword
@@ -87,9 +95,30 @@ class Login extends Component {
                 { this.props.pwReset ?
                     <form className="formBox" id="resetForm">
                         <h2>Reset Password</h2>
-                        <h3>{this.props.resetUser}</h3>
-                        <input id="resetPw" type="password" onChange={this.handleChange} value={resetPw} />
-                        <input id="resetPw2" type="password" onChange={this.handleChange} value={resetPw2} />
+                        <div
+                            className="errorBox"
+                            id="resetPwError"
+                        >
+                            {this.props.error.error}
+                        </div>
+                        <label>Username<input
+                            id="resetPwUsername"
+                            onChange={this.handleChange}
+                            value={resetPwUsername}
+                        /></label>
+                        <label>New Password<input
+                            id="resetPw"
+                            type="password"
+                            onChange={this.handleChange}
+                            value={resetPw}
+                        /></label>
+                        <label>Re-Type Password<input
+                            id="resetPw2"
+                            type="password"
+                            onChange={this.handleChange}
+                            value={resetPw2}
+                        /></label>
+                        <button onClick={this.resetPw}>Reset</button>
                     </form> :
 
                     <div>
