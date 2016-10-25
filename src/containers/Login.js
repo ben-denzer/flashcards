@@ -63,7 +63,6 @@ class Login extends Component {
     resetPw(e) {
         e.preventDefault();
         const path = window.location.pathname;
-        console.log('to', path.slice(path.lastIndexOf('/') + 1));
         const {resetPwUsername, resetPw, resetPw2} = this.state;
         if (resetPw !== resetPw2) return this.props.showError({error: 'Passwords Do Not Match'});
         this.props.resetPw(

@@ -68,7 +68,6 @@ const sendResetEmail = (options) => {
 };
 
 const resetPw = (options, tokenUrl) => {
-    console.log('promise', tokenUrl);
     return new Promise((resolve, reject) => {
         apiPromise(options, `auth/reset/${tokenUrl}`).then(
             (data) => resolve({coins: data.coins, user: data.username, token: data.token}),
